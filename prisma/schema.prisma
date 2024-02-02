@@ -1,0 +1,81 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlserver"
+  url      = env("DATABASE_URL")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model energy_data {
+  Date             DateTime? @db.Date
+  Time             DateTime? @db.Time
+  First_Floor      Float?
+  Second_Floor     Float?
+  Third_Floor      Float?
+  Fourth_Floor     Float?
+  Utilities        Float?
+  TOTAL            Float?
+  First_Floor_Kwh  Float?
+  Second_Floor_Kwh Float?
+  Third_Floor_Kwh  Float?
+  Fourth_Floor_Kwh Float?
+  Utilities_Kwh    Float?
+  TOTAL_Kwh        Float?
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model resTest1 {
+  dateTime         DateTime? @db.DateTime
+  First_Floor      Float?
+  Second_Floor     Float?
+  Third_Floor      Float?
+  Fourth_Floor     Float?
+  Utilities        Float?
+  TOTAL            Float?
+  First_Floor_Kwh  Float?
+  Second_Floor_Kwh Float?
+  Third_Floor_Kwh  Float?
+  Fourth_Floor_Kwh Float?
+  Utilities_Kwh    Float?
+  TOTAL_Kwh        Float?
+
+  @@ignore
+}
+
+model resTest2 {
+  id               Int       @id(map: "PK__resTest2__3213E83F75E5BFB2") @default(autoincrement())
+  dateTime         DateTime? @db.DateTime
+  First_Floor      Float?
+  Second_Floor     Float?
+  Third_Floor      Float?
+  Fourth_Floor     Float?
+  Utilities        Float?
+  TOTAL            Float?
+  First_Floor_Kwh  Float?
+  Second_Floor_Kwh Float?
+  Third_Floor_Kwh  Float?
+  Fourth_Floor_Kwh Float?
+  Utilities_Kwh    Float?
+  TOTAL_Kwh        Float?
+}
+
+model resData {
+  id               Int       @id(map: "PK__resData__3213E83FD6863A9C") @default(autoincrement())
+  dateTime         DateTime? @db.DateTime
+  First_Floor      Float?
+  Second_Floor     Float?
+  Third_Floor      Float?
+  Fourth_Floor     Float?
+  Utilities        Float?
+  TOTAL            Float?
+  First_Floor_Kwh  Float?
+  Second_Floor_Kwh Float?
+  Third_Floor_Kwh  Float?
+  Fourth_Floor_Kwh Float?
+  Utilities_Kwh    Float?
+  TOTAL_Kwh        Float?
+}
