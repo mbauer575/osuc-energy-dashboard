@@ -1,5 +1,7 @@
-// Stats Page displaying live data for the current day.
+// Stats Page displaying live data for the current day. 
+
 export const dynamic = 'force-dynamic'
+
 
 import { Card, Grid, Text, Metric, Flex, BadgeDelta, AreaChart, Title, DonutChart, Divider } from "@tremor/react";
 import { getAllRecords } from '../../api/db';
@@ -29,43 +31,44 @@ function calcKwh_adjusted(data, floor, last) {
         }
     });
     sum = Math.round(sum);
+    console.log(`Final sum: ${sum}`);
     return sum;
 }
 
 // const valueFormatter = (number) => `${number} KWh`;
-const chartData_today = await getData('today');
-const chartData_yesterday = await getData('yesterday');
 
-const last_time = chartData_today[chartData_today.length - 1].date_dateTime;
-const last_time_ampm = chartData_today[chartData_today.length - 1].date;
-
-const firstFloorKwh = calcKwh(chartData_today, 'First_Floor_Kwh');
-const secondFloorKwh = calcKwh(chartData_today, 'Second_Floor_Kwh');
-const thirdFloorKwh = calcKwh(chartData_today, 'Third_Floor_Kwh');
-const fourthFloorKwh = calcKwh(chartData_today, 'Fourth_Floor_Kwh');
-const utilitiesKwh = calcKwh(chartData_today, 'Utilities_Kwh');
-const TOTAL_Kwh = calcKwh(chartData_today, 'TOTAL_Kwh');
-
-const firstFloorKwh_yesterday = calcKwh(chartData_yesterday, 'First_Floor_Kwh');
-const secondFloorKwh_yesterday = calcKwh(chartData_yesterday, 'Second_Floor_Kwh');
-const thirdFloorKwh_yesterday = calcKwh(chartData_yesterday, 'Third_Floor_Kwh');
-const fourthFloorKwh_yesterday = calcKwh(chartData_yesterday, 'Fourth_Floor_Kwh');
-
-
-
-
-const ffkwh_yesterday = calcKwh_adjusted(chartData_yesterday, 'First_Floor_Kwh', last_time);
-const sfkwh_yesterday = calcKwh_adjusted(chartData_yesterday, 'Second_Floor_Kwh', last_time);
-const tfkwh_yesterday = calcKwh_adjusted(chartData_yesterday, 'Third_Floor_Kwh', last_time);
-const fofkwh_yesterday = calcKwh_adjusted(chartData_yesterday, 'Fourth_Floor_Kwh', last_time);
-
-const firstFloorDelta = ((firstFloorKwh - ffkwh_yesterday) / ffkwh_yesterday) * 100;
-const secondFloorDelta = ((secondFloorKwh - sfkwh_yesterday) / sfkwh_yesterday) * 100;
-const thirdFloorDelta = ((thirdFloorKwh - tfkwh_yesterday) / tfkwh_yesterday) * 100;
-const fourthFloorDelta = ((fourthFloorKwh - fofkwh_yesterday) / fofkwh_yesterday) * 100;
 
 export default async function Page() {
+    const chartData_today = await getData('today');
+    const chartData_yesterday = await getData('yesterday');
 
+    const last_time = chartData_today[chartData_today.length - 1].date_dateTime;
+    const last_time_ampm = chartData_today[chartData_today.length - 1].date;
+
+    const firstFloorKwh = calcKwh(chartData_today, 'First_Floor_Kwh');
+    const secondFloorKwh = calcKwh(chartData_today, 'Second_Floor_Kwh');
+    const thirdFloorKwh = calcKwh(chartData_today, 'Third_Floor_Kwh');
+    const fourthFloorKwh = calcKwh(chartData_today, 'Fourth_Floor_Kwh');
+    const utilitiesKwh = calcKwh(chartData_today, 'Utilities_Kwh');
+    const TOTAL_Kwh = calcKwh(chartData_today, 'TOTAL_Kwh');
+
+    const firstFloorKwh_yesterday = calcKwh(chartData_yesterday, 'First_Floor_Kwh');
+    const secondFloorKwh_yesterday = calcKwh(chartData_yesterday, 'Second_Floor_Kwh');
+    const thirdFloorKwh_yesterday = calcKwh(chartData_yesterday, 'Third_Floor_Kwh');
+    const fourthFloorKwh_yesterday = calcKwh(chartData_yesterday, 'Fourth_Floor_Kwh');
+
+
+
+
+    const ffkwh_yesterday = calcKwh_adjusted(chartData_yesterday, 'First_Floor_Kwh', last_time);
+    const sfkwh_yesterday = calcKwh_adjusted(chartData_yesterday, 'Second_Floor_Kwh', last_time);
+    const tfkwh_yesterday = calcKwh_adjusted(chartData_yesterday, 'Third_Floor_Kwh', last_time);
+    const fofkwh_yesterday = calcKwh_adjusted(chartData_yesterday, 'Fourth_Floor_Kwh', last_time);
+
+    const firstFloorDelta = ((firstFloorKwh - ffkwh_yesterday) / ffkwh_yesterday) * 100;
+    const secondFloorDelta = ((secondFloorKwh - sfkwh_yesterday) / sfkwh_yesterday) * 100;
+    const thirdFloorDelta = ((thirdFloorKwh - tfkwh_yesterday) / tfkwh_yesterday) * 100;
+    const fourthFloorDelta = ((fourthFloorKwh - fofkwh_yesterday) / fofkwh_yesterday) * 100;
 
     const floors = [
         {
@@ -113,7 +116,7 @@ export default async function Page() {
                                 showLabel={false}
                                 variant='pie'
                             />
-                            {/* <div>
+                            <div>
                                 <Title>Week</Title>
                                 <Metric>{TOTAL_Kwh} kWh</Metric>
                             </div>
@@ -126,7 +129,7 @@ export default async function Page() {
                                 colors={["indigo", "cyan", "red", "green"]}
                                 label='Week'
                                 variant='donut'
-                            /> */}
+                            />
                         </Flex>
                     </Card>
                     <Card decoration="left" decorationColor="gray">
