@@ -3,15 +3,17 @@
 import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
-export async function getAllRecords() {
-    const now = new Date();
-    const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+export async function getAllRecords(timeFrame) {
+    let data;
+    if (timeFrame === 'today') {
+        data = await prisma.$queryRaw`SELECT * FROM resData WHERE CAST(dateTime AS DATE) = CAST(SYSDATETIMEOFFSET() AT TIME ZONE 'Pacific Standard Time' AS DATE) ORDER BY dateTime`
+    }
+    else if (timeFrame === 'yesterday') {
+        data = await prisma.$queryRaw`SELECT * FROM resData WHERE CAST(dateTime AS DATE) = DATEADD(day, -1, CAST(SYSDATETIMEOFFSET() AT TIME ZONE 'Pacific Standard Time' AS DATE)) ORDER BY dateTime;`
+    }
 
-    const data = await prisma.resData.findMany({
-        orderBy: {
-            dateTime: 'asc'
-        },
-    })
+
+
     // Format the data for the AreaChart
     const chartData = data.map(record => {
         const timeParts = record.dateTime.toISOString().split('T')[1].split(':');
@@ -23,10 +25,19 @@ export async function getAllRecords() {
 
         return {
             date: formattedTime,
+            date_dateTime: record.dateTime,
             First_Floor: record.First_Floor,
             Second_Floor: record.Second_Floor,
             Third_Floor: record.Third_Floor,
-            Fourth_Floor: record.Fourth_Floor
+            Fourth_Floor: record.Fourth_Floor,
+            Utilities: record.Utilities,
+            TOTAL: record.TOTAL,
+            First_Floor_Kwh: record.First_Floor_Kwh,
+            Second_Floor_Kwh: record.Second_Floor_Kwh,
+            Third_Floor_Kwh: record.Third_Floor_Kwh,
+            Fourth_Floor_Kwh: record.Fourth_Floor_Kwh,
+            Utilities_Kwh: record.Utilities_Kwh,
+            TOTAL_Kwh: record.TOTAL_Kwh
         };
     });
 
