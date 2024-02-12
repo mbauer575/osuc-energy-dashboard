@@ -41,6 +41,7 @@ function calcKwh_adjusted(data, floor, last) {
 export default async function Page() {
     const chartData_today = await getData('today');
     const chartData_yesterday = await getData('yesterday');
+    const chartData_week = await getData('week');
 
     const last_time = chartData_today[chartData_today.length - 1].date_dateTime;
     const last_time_ampm = chartData_today[chartData_today.length - 1].date;
@@ -51,6 +52,14 @@ export default async function Page() {
     const fourthFloorKwh = calcKwh(chartData_today, 'Fourth_Floor_Kwh');
     const utilitiesKwh = calcKwh(chartData_today, 'Utilities_Kwh');
     const TOTAL_Kwh = calcKwh(chartData_today, 'TOTAL_Kwh');
+
+    const firstFloorKwh_week = calcKwh(chartData_week, 'First_Floor_Kwh');
+    const secondFloorKwh_week = calcKwh(chartData_week, 'Second_Floor_Kwh');
+    const thirdFloorKwh_week = calcKwh(chartData_week, 'Third_Floor_Kwh');
+    const fourthFloorKwh_week = calcKwh(chartData_week, 'Fourth_Floor_Kwh');
+    const utilitiesKwh_week = calcKwh(chartData_week, 'Utilities_Kwh');
+    const TOTAL_Kwh_week = calcKwh(chartData_week, 'TOTAL_Kwh');
+
 
     const firstFloorKwh_yesterday = calcKwh(chartData_yesterday, 'First_Floor_Kwh');
     const secondFloorKwh_yesterday = calcKwh(chartData_yesterday, 'Second_Floor_Kwh');
@@ -69,6 +78,9 @@ export default async function Page() {
     const secondFloorDelta = ((secondFloorKwh - sfkwh_yesterday) / sfkwh_yesterday) * 100;
     const thirdFloorDelta = ((thirdFloorKwh - tfkwh_yesterday) / tfkwh_yesterday) * 100;
     const fourthFloorDelta = ((fourthFloorKwh - fofkwh_yesterday) / fofkwh_yesterday) * 100;
+
+
+
 
     const floors = [
         {
@@ -92,6 +104,29 @@ export default async function Page() {
             usage: utilitiesKwh,
         }
     ];
+    const floors_week = [
+        {
+            name: "First Floor",
+            usage: firstFloorKwh_week,
+        },
+        {
+            name: "Second Floor",
+            usage: secondFloorKwh_week,
+        },
+        {
+            name: "Third Floor",
+            usage: thirdFloorKwh_week,
+        },
+        {
+            name: "Fourth Floor",
+            usage: fourthFloorKwh_week,
+        },
+        {
+            name: "Utilities",
+            usage: utilitiesKwh_week,
+        }
+    ];
+
 
     return (
         <div>
@@ -103,7 +138,7 @@ export default async function Page() {
                         <Divider></Divider>
                         <Flex flexDirection='row' justifyContent='center' alignItems='center'>
                             <div>
-                                <Title>Today</Title>
+                                <Title>Day</Title>
                                 <Metric>{TOTAL_Kwh} kWh</Metric>
                             </div>
                             <DonutChart
@@ -118,16 +153,16 @@ export default async function Page() {
                             />
                             <div>
                                 <Title>Week</Title>
-                                <Metric>{TOTAL_Kwh} kWh</Metric>
+                                <Metric>{TOTAL_Kwh_week} kWh</Metric>
                             </div>
                             <DonutChart
                                 className="mt-6"
-                                data={floors}
+                                data={floors_week}
                                 category="usage"
                                 index="name"
                                 //valueFormatter={valueFormatter}
                                 colors={["indigo", "cyan", "red", "green"]}
-                                label='Week'
+
                                 variant='donut'
                             />
                         </Flex>

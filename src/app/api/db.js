@@ -6,10 +6,13 @@ const prisma = new PrismaClient()
 export async function getAllRecords(timeFrame) {
     let data;
     if (timeFrame === 'today') {
-        data = await prisma.$queryRaw`SELECT * FROM resData WHERE CAST(dateTime AS DATE) = CAST(SYSDATETIMEOFFSET() AT TIME ZONE 'Pacific Standard Time' AS DATE) ORDER BY dateTime`
+        data = await prisma.$queryRaw`SELECT * FROM EnergyData WHERE CAST(dateTime AS DATE) = CAST(SYSDATETIMEOFFSET() AT TIME ZONE 'Pacific Standard Time' AS DATE) ORDER BY dateTime`
     }
     else if (timeFrame === 'yesterday') {
-        data = await prisma.$queryRaw`SELECT * FROM resData WHERE CAST(dateTime AS DATE) = DATEADD(day, -1, CAST(SYSDATETIMEOFFSET() AT TIME ZONE 'Pacific Standard Time' AS DATE)) ORDER BY dateTime;`
+        data = await prisma.$queryRaw`SELECT * FROM EnergyData WHERE CAST(dateTime AS DATE) = DATEADD(day, -1, CAST(SYSDATETIMEOFFSET() AT TIME ZONE 'Pacific Standard Time' AS DATE)) ORDER BY dateTime;`
+    }
+    else if (timeFrame === 'week') {
+        data = await prisma.$queryRaw`SELECT * FROM EnergyData WHERE CAST(dateTime AS DATE) >= DATEADD(day, -7, CAST(SYSDATETIMEOFFSET() AT TIME ZONE 'Pacific Standard Time' AS DATE)) ORDER BY dateTime;`
     }
 
 
