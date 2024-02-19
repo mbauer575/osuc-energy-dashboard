@@ -14,8 +14,9 @@ export async function getAllRecords(timeFrame) {
     else if (timeFrame === 'week') {
         data = await prisma.$queryRaw`SELECT * FROM EnergyData WHERE CAST(dateTime AS DATE) >= DATEADD(day, -7, CAST(SYSDATETIMEOFFSET() AT TIME ZONE 'Pacific Standard Time' AS DATE)) ORDER BY dateTime;`
     }
-
-
+    else if (timeFrame === '24hrs') {
+        data = await prisma.$queryRaw`SELECT TOP 288 * FROM EnergyData ORDER BY dateTime DESC;`
+    }
 
     // Format the data for the AreaChart
     const chartData = data.map(record => {
