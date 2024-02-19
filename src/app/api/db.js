@@ -3,6 +3,33 @@
 import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
+
+export async function getKwhSum_Day(date) {
+    const data = await prisma.$queryRaw`SELECT 
+    SUM(First_Floor_Kwh) AS First_Floor_Sum, 
+    SUM(Second_Floor_Kwh) AS Second_Floor_Sum, 
+    SUM(Third_Floor_Kwh) AS Third_Floor_Sum, 
+    SUM(Fourth_Floor_Kwh) AS Fourth_Floor_Sum, 
+    SUM(Utilities_Kwh) AS Utilities_Sum, 
+    SUM(TOTAL_Kwh) AS Total_Sum 
+    FROM EnergyData  WHERE CAST(dateTime AS DATE) = ${date};`
+    return data;
+}
+
+export async function getKwhSum_Custom(start, end) {
+    const data = await prisma.$queryRaw`SELECT 
+    SUM(First_Floor_Kwh) AS First_Floor_Sum, 
+    SUM(Second_Floor_Kwh) AS Second_Floor_Sum, 
+    SUM(Third_Floor_Kwh) AS Third_Floor_Sum, 
+    SUM(Fourth_Floor_Kwh) AS Fourth_Floor_Sum, 
+    SUM(Utilities_Kwh) AS Utilities_Sum, 
+    SUM(TOTAL_Kwh) AS Total_Sum 
+    FROM EnergyData  WHERE CAST(dateTime AS DATE) >= ${date};`
+    return data;
+}
+
+
+
 export async function getAllRecords(timeFrame) {
     let data;
     if (timeFrame === 'today') {
@@ -47,3 +74,4 @@ export async function getAllRecords(timeFrame) {
 
     return chartData;
 }
+
