@@ -201,7 +201,7 @@ export default async function Page() {
                             <Text>Yesterday Adjusted = {ffkwh_yesterday}</Text> */}
 
 
-                                    <BadgeDelta deltaType={firstFloorDelta > 0 ? "increase" : "decrease"} isIncreasePositive={true} size="xs">
+                                    <BadgeDelta deltaType={firstFloorDelta > 0 ? "increase" : "decrease"} isIncreasePositive={false} size="xs">
                                         {firstFloorDelta.toFixed(2)}%
                                     </BadgeDelta>
                                 </Flex>
@@ -210,7 +210,7 @@ export default async function Page() {
                             <Card decoration="left" decorationColor="cyan">
                                 <Flex justifyContent="between" alignItems="center">
                                     <Text>Second Floor</Text>
-                                    <BadgeDelta deltaType={secondFloorDelta > 0 ? "increase" : "decrease"} isIncreasePositive={true} size="xs">
+                                    <BadgeDelta deltaType={secondFloorDelta > 0 ? "increase" : "decrease"} isIncreasePositive={false} size="xs">
                                         {secondFloorDelta.toFixed(2)}%
                                     </BadgeDelta>
                                 </Flex>
@@ -219,7 +219,7 @@ export default async function Page() {
                             <Card decoration="left" decorationColor="red">
                                 <Flex justifyContent="between" alignItems="center">
                                     <Text>Third Floor</Text>
-                                    <BadgeDelta deltaType={thirdFloorDelta > 0 ? "increase" : "decrease"} isIncreasePositive={true} size="xs">
+                                    <BadgeDelta deltaType={thirdFloorDelta > 0 ? "increase" : "decrease"} isIncreasePositive={false} size="xs">
                                         {thirdFloorDelta.toFixed(2)}%
                                     </BadgeDelta>
                                 </Flex>
@@ -228,7 +228,7 @@ export default async function Page() {
                             <Card decoration="left" decorationColor="green">
                                 <Flex justifyContent="between" alignItems="center">
                                     <Text>Fourth Floor</Text>
-                                    <BadgeDelta deltaType={fourthFloorDelta > 0 ? "increase" : "decrease"} isIncreasePositive={true} size="xs">
+                                    <BadgeDelta deltaType={fourthFloorDelta > 0 ? "increase" : "decrease"} isIncreasePositive={false} size="xs">
                                         {fourthFloorDelta.toFixed(2)}%
                                     </BadgeDelta>
                                 </Flex>
